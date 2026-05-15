@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fintech Manual Testing Learning Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #121212;
+      color: #f5f5f5;
+      overflow-x: hidden;
+    }
+
+    body::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: #4d4d4d;
+      border-radius: 10px;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+      background: linear-gradient(135deg, #181818, #202020, #2c2c2c);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 50%;
+      top: -120px;
+      left: -120px;
+      animation: float 7s infinite alternate ease-in-out;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+      bottom: -100px;
+      right: -100px;
+      animation: float 9s infinite alternate ease-in-out;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(0px);
+      }
+      to {
+        transform: translateY(25px);
+      }
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      z-index: 1;
+    }
+
+    .hero p {
+      max-width: 900px;
+      line-height: 1.9;
+      color: #d3d3d3;
+      z-index: 1;
+      font-size: 1.1rem;
+    }
+
+    .hero button {
+      margin-top: 35px;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 40px;
+      background: #ffffff;
+      color: #111;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.4s ease;
+      z-index: 1;
+    }
+
+    .hero button:hover {
+      transform: scale(1.08);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(20,20,20,0.95);
+      backdrop-filter: blur(12px);
+      padding: 15px 25px;
+      z-index: 999;
+      overflow-x: auto;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-right: 20px;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #9f9f9f;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1350px;
+      margin: auto;
+      padding: 60px 0;
+    }
+
+    .section {
+      background: #1c1c1c;
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(50px);
+      transition: 1s;
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section h2 {
+      font-size: 2.3rem;
+      margin-bottom: 20px;
+    }
+
+    .section-intro {
+      color: #c7c7c7;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #262626;
+      border-radius: 20px;
+      padding: 25px;
+      transition: 0.4s;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      background: #303030;
+    }
+
+    .card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      color: #d4d4d4;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .example {
+      margin-top: 15px;
+      padding: 14px;
+      border-left: 4px solid #8f8f8f;
+      background: rgba(255,255,255,0.04);
+      border-radius: 10px;
+      color: #e8e8e8;
+      font-size: 0.92rem;
+    }
+
+    .chart-box {
+      margin-top: 35px;
+      background: #252525;
+      padding: 20px;
+      border-radius: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #a9a9a9;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 60px;
+    }
+
+    .priority {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .priority div {
+      background: #2f2f2f;
+      padding: 15px 20px;
+      border-radius: 14px;
+      transition: 0.3s;
+    }
+
+    .priority div:hover {
+      transform: scale(1.05);
+    }
+
+    @media(max-width:768px){
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .section {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <h1>Fintech Manual Testing Learning Portal</h1>
+    <p>
+      A complete beginner-friendly roadmap to learn finance domain concepts, wealth management systems,
+      trading workflow testing, API basics, SQL validation, security testing, dashboard testing, and real fintech edge cases.
+      Every section includes simple explanations, practical examples, visual cards, charts, and modern matte aesthetic UI.
+    </p>
+    <button onclick="document.getElementById('section1').scrollIntoView()">Start Learning</button>
+  </section>
+
+  <nav>
+    <a href="#section1">Finance Basics</a>
+    <a href="#section2">Wealth Management</a>
+    <a href="#section3">Trading Testing</a>
+    <a href="#section4">Calculations</a>
+    <a href="#section5">API Testing</a>
+    <a href="#section6">Database</a>
+    <a href="#section7">Manual Testing</a>
+    <a href="#section8">Security</a>
+    <a href="#section9">Payments</a>
+    <a href="#section10">Reports</a>
+    <a href="#section11">Edge Cases</a>
+  </nav>
+
+  <div class="container">
+
+    <section class="section" id="section1">
+      <h2>1. Stock Market & Investment Basics</h2>
+      <p class="section-intro">
+        These concepts help testers understand how investment platforms work. Learning finance terms makes it easier to test portfolios, orders, reports, and transactions.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop" alt="Stocks">
+          <h3>Stocks / Equities</h3>
+          <p>Stocks represent ownership in a company. When users buy shares of a company, they become shareholders.</p>
+          <div class="example">Example: Buying 10 shares of Infosys means the investor owns a small part of Infosys.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1642543348745-96a0d744b22d?q=80&w=1200&auto=format&fit=crop" alt="Portfolio">
+          <h3>Portfolio</h3>
+          <p>A portfolio is a collection of investments such as stocks, mutual funds, and bonds owned by a user.</p>
+          <div class="example">Example: A portfolio may contain HDFC Bank stock, SBI stock, and mutual funds together.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop" alt="Buy Sell">
+          <h3>Buy / Sell Orders</h3>
+          <p>Users place buy or sell requests on trading platforms. Testers verify order success, failure, and status updates.</p>
+          <div class="example">Example: User places BUY order for 5 Tata Motors shares and system updates portfolio after execution.</div>
+        </div>
+      </div>
+
+      <div class="chart-box">
+        <canvas id="marketChart"></canvas>
+      </div>
+    </section>
+
+    <section class="section" id="section2">
+      <h2>2. Wealth Management Domain Knowledge</h2>
+      <p class="section-intro">
+        Wealth management platforms help advisors manage investors, portfolios, subscriptions, and financial recommendations.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
+          <h3>RIA & RA</h3>
+          <p>RIA means Registered Investment Adviser and RA means Research Analyst. These professionals provide investment guidance.</p>
+          <div class="example">Example: An RIA recommends balanced portfolios based on customer risk profiles.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop">
+          <h3>KYC Process</h3>
+          <p>KYC verifies customer identity using PAN card, Aadhaar, or address proof before investing.</p>
+          <div class="example">Example: Tester verifies error handling when PAN number is invalid.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1200&auto=format&fit=crop">
+          <h3>Subscription Workflow</h3>
+          <p>Investors subscribe to advisory plans for portfolio recommendations and reports.</p>
+          <div class="example">Example: User purchases premium advisory plan and gains access to recommendations dashboard.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section3">
+      <h2>3. Trading Workflow Testing</h2>
+      <p class="section-intro">
+        Trading systems contain multiple workflows that require accurate validations and role-based testing.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+          <h3>Order Placement Flow</h3>
+          <p>Manual testers verify order creation, confirmation, pending state, and successful execution.</p>
+          <div class="example">Example: Login → Portfolio → Buy Shares → Order Success Message.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop">
+          <h3>Failed & Cancelled Orders</h3>
+          <p>Testing should confirm proper messages when orders fail because of low balance or market issues.</p>
+          <div class="example">Example: User balance insufficient → “Order Failed” message displayed.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop">
+          <h3>Role Testing</h3>
+          <p>Advisor and client users should have different permissions and dashboards.</p>
+          <div class="example">Example: Client cannot access admin portfolio management panel.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section4">
+      <h2>4. Financial Calculations Validation</h2>
+      <p class="section-intro">
+        Finance applications rely heavily on accurate calculations. Even a small decimal mistake can create major issues.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1554224154-22dec7ec8818?q=80&w=1200&auto=format&fit=crop">
+          <h3>Profit & Loss</h3>
+          <p>Verify whether system correctly calculates gains or losses after trades.</p>
+          <div class="example">Example: Buy at ₹100 and sell at ₹120 → Profit should be ₹20.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop">
+          <h3>CAGR & XIRR</h3>
+          <p>These formulas calculate long-term investment returns and are commonly used in portfolio reports.</p>
+          <div class="example">Example: Tester validates annual return percentages shown in reports.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1633158829799-8f07d26d2d29?q=80&w=1200&auto=format&fit=crop">
+          <h3>Decimal Precision</h3>
+          <p>Finance systems must handle decimal values carefully without rounding errors.</p>
+          <div class="example">Example: ₹100.5678 should not incorrectly display as ₹100.56 if rounding rules differ.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section5">
+      <h2>5. API Testing Basics</h2>
+      <p class="section-intro">
+        APIs allow frontend systems and backend systems to communicate. Manual testers often validate API responses using tools.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop">
+          <h3>REST APIs & JSON</h3>
+          <p>REST APIs transfer data using JSON format between systems.</p>
+          <div class="example">Example: API returns user portfolio details in JSON format.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop">
+          <h3>Status Codes</h3>
+          <p>HTTP status codes indicate API success or failure.</p>
+          <div class="example">Example: 200 = Success, 401 = Unauthorized, 500 = Server Error.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?q=80&w=1200&auto=format&fit=crop">
+          <h3>Postman & Swagger</h3>
+          <p>Postman helps test APIs manually while Swagger documents available APIs.</p>
+          <div class="example">Example: Tester validates API response body in Postman.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section6">
+      <h2>6. Database Testing Basics</h2>
+      <p class="section-intro">
+        Database validation ensures stored data matches frontend actions and transaction results.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1200&auto=format&fit=crop">
+          <h3>SELECT & WHERE Queries</h3>
+          <p>These SQL queries retrieve and filter data from tables.</p>
+          <div class="example">Example: SELECT * FROM users WHERE user_id=1001;</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321165247-4aa89a48be28?q=80&w=1200&auto=format&fit=crop">
+          <h3>JOINs & Validation</h3>
+          <p>JOINs combine multiple tables to verify related records.</p>
+          <div class="example">Example: Verify portfolio table correctly maps to investor table.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop">
+          <h3>Transaction Verification</h3>
+          <p>Testers validate whether successful payments and trades are stored correctly in database tables.</p>
+          <div class="example">Example: Buy order reflected correctly in transaction history table.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section7">
+      <h2>7. Manual Testing Concepts</h2>
+      <p class="section-intro">
+        These are core software testing concepts every QA engineer should know before entering fintech projects.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop">
+          <h3>Test Cases & Scenarios</h3>
+          <p>Test cases define steps and expected results while scenarios describe workflows.</p>
+          <div class="example">Example: Verify successful login with valid username and password.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop">
+          <h3>Smoke & Regression Testing</h3>
+          <p>Smoke testing checks core features while regression testing verifies old features after changes.</p>
+          <div class="example">Example: Login tested after every deployment.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321310764-8d95a4b2f6f3?q=80&w=1200&auto=format&fit=crop">
+          <h3>Bug Reporting</h3>
+          <p>Defects should include steps, screenshots, expected results, and severity.</p>
+          <div class="example">Example: “Payment button crashes app after entering invalid CVV.”</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section8">
+      <h2>8. Security Testing Basics</h2>
+      <p class="section-intro">
+        Finance platforms handle sensitive user information and money, so security testing is extremely important.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+          <h3>Authentication & OTP</h3>
+          <p>Verify login systems, OTP validations, and password security.</p>
+          <div class="example">Example: OTP should expire after 60 seconds.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200&auto=format&fit=crop">
+          <h3>Authorization</h3>
+          <p>Users should only access features allowed for their role.</p>
+          <div class="example">Example: Investor user cannot modify advisor settings.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
+          <h3>Session Timeout</h3>
+          <p>Applications should automatically log out inactive users.</p>
+          <div class="example">Example: User session expires after 15 minutes of inactivity.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section9">
+      <h2>9. Payment & Subscription Testing</h2>
+      <p class="section-intro">
+        Fintech platforms often charge advisory subscription fees and process secure online payments.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1200&auto=format&fit=crop">
+          <h3>Payment Workflow</h3>
+          <p>Validate successful payments, failed transactions, and retry functionality.</p>
+          <div class="example">Example: Incorrect CVV should display payment failure message.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1554224154-26032fced8bd?q=80&w=1200&auto=format&fit=crop">
+          <h3>Invoice Generation</h3>
+          <p>Invoices should include GST, payment amount, and transaction details.</p>
+          <div class="example">Example: PDF invoice generated immediately after successful payment.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?q=80&w=1200&auto=format&fit=crop">
+          <h3>Renewal Testing</h3>
+          <p>Subscription renewals should activate plans without duplicate charges.</p>
+          <div class="example">Example: Annual plan renews automatically on expiry date.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section10">
+      <h2>10. Reports & Dashboard Testing</h2>
+      <p class="section-intro">
+        Dashboards display important financial data, charts, filters, and reports for investors and advisors.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop">
+          <h3>Reports Validation</h3>
+          <p>Verify calculations, downloadable files, and displayed financial summaries.</p>
+          <div class="example">Example: Portfolio report totals should match dashboard totals.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop">
+          <h3>Charts & Graphs</h3>
+          <p>Graph values should accurately reflect backend data.</p>
+          <div class="example">Example: Monthly growth chart should match stored transaction records.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+          <h3>Filters & Search</h3>
+          <p>Test sorting, pagination, and search functionality with large datasets.</p>
+          <div class="example">Example: Search investor by PAN number or portfolio ID.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="section11">
+      <h2>11. Important Fintech Edge Cases</h2>
+      <p class="section-intro">
+        Edge cases are unusual situations that can break financial systems if not tested properly.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1633158829875-e5316a358c6f?q=80&w=1200&auto=format&fit=crop">
+          <h3>Decimal & Currency Issues</h3>
+          <p>Finance apps must display currency and decimals correctly.</p>
+          <div class="example">Example: ₹1,00,000.567 should not lose decimal precision unexpectedly.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop">
+          <h3>Duplicate Transactions</h3>
+          <p>Systems should prevent repeated orders and duplicate payments.</p>
+          <div class="example">Example: Double-clicking payment button should not create two transactions.</div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop">
+          <h3>Date & Market Timing</h3>
+          <p>Trading systems must handle timezone and market opening hours correctly.</p>
+          <div class="example">Example: Orders placed after market close should remain pending.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Most Important Skills to Focus On</h2>
+      <p class="section-intro">
+        These are the highest priority skills for getting manual testing roles in fintech and wealth management companies.
+      </p>
+
+      <div class="priority">
+        <div>Finance Domain Basics</div>
+        <div>Trading Workflow Understanding</div>
+        <div>Financial Calculations Validation</div>
+        <div>SQL Basics</div>
+        <div>API Basics with Postman</div>
+        <div>Manual Testing Fundamentals</div>
+        <div>Security & Role Testing</div>
+        <div>Dashboard & Report Validation</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    Designed for Fintech Manual Testing Learning • Matte Aesthetic UI • Beginner Friendly Learning Portal
+  </footer>
+
+  <script>
+    const sections = document.querySelectorAll('.section');
+
+    window.addEventListener('scroll', () => {
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+          section.classList.add('show');
+        }
+      });
+    });
+
+    const ctx = document.getElementById('marketChart');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Portfolio Growth Example',
+          data: [10, 18, 14, 28, 35, 45],
+          borderColor: '#ffffff',
+          backgroundColor: 'rgba(255,255,255,0.08)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#fff'
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#fff'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#fff'
+            }
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
