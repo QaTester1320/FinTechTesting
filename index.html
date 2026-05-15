@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fintech & Wealth Management QA Guide</title>
+    <style>
+        /* Dark Matte Aesthetic Custom CSS */
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --bg-card-hover: #252525;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+            --accent-blue: #4a9eff;
+            --accent-green: #5c8a63; /* Muted Green */
+            --accent-red: #c25953;   /* Muted Red */
+            --warning: #d4a373;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Mona Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Menu */
+        nav {
+            background-color: #181818;
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text-main);
+            background-color: var(--border-color);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(to bottom, #1a1a1a, #121212);
+        }
+
+        header h1 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        /* Main Container */
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 50px;
+        }
+
+        .section-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            opacity: 0.8;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        /* Content Cards */
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background-color: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .point-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .point-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .point-title {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .point-title::before {
+            content: "✦";
+            color: var(--accent-blue);
+            font-size: 0.8rem;
+        }
+
+        .point-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .point-example {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-left: 3px solid var(--warning);
+            font-size: 0.9rem;
+            color: var(--text-main);
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* List Items */
+        ul.simple-list {
+            list-style-type: square;
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        ul.simple-list li {
+            margin-bottom: 5px;
+        }
+
+        /* Sandbox Interactive Area */
+        .sandbox {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-top: 50px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--accent-blue);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #357abd;
+        }
+
+        /* Inline UI Result (No JS Alert) */
+        .ui-hint {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+        }
+        
+        .success-hint {
+            background-color: rgba(92, 138, 99, 0.2);
+            color: var(--accent-green);
+            border: 1px solid var(--accent-green);
+        }
+
+        .error-hint {
+            background-color: rgba(194, 89, 83, 0.2);
+            color: var(--accent-red);
+            border: 1px solid var(--accent-red);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#sec1">1. Market Basics</a>
+        <a href="#sec2">2. Wealth Mgmt</a>
+        <a href="#sec3">3. Trading Workflows</a>
+        <a href="#sec4">4. Calculations</a>
+        <a href="#sec5">5. API Testing</a>
+        <a href="#sec6">6. DB Testing</a>
+        <a href="#sec7">7. Manual QA</a>
+        <a href="#sec8">8. Security</a>
+        <a href="#sec9">9. Payments</a>
+        <a href="#sec10">10. Reports</a>
+        <a href="#sec11">11. Edge Cases</a>
+        <a href="#sec12">12. Important Skills</a>
+    </nav>
+
+    <header>
+        <h1>Fintech & Wealth Management QA Guide</h1>
+        <p>A complete manual testing guide written in basic English with real-world examples.</p>
+    </header>
+
+    <div class="container">
+
+        <h2 id="sec1" class="section-title">1. Stock Market & Investment Basics</h2>
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80" alt="Stock Market Charts" class="section-img">
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Stocks / Equities</div>
+                    <div class="point-desc">A stock is a small piece of ownership in a company.</div>
+                    <div class="point-example">Example: You buy 10 stocks of Tata Motors. You now own a tiny part of Tata Motors.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">NSE & BSE Basics</div>
+                    <div class="point-desc">These are the digital marketplaces where you buy and sell stocks in India. NSE = National Stock Exchange. BSE = Bombay Stock Exchange.</div>
+                    <div class="point-example">Example: You go to a fruit market to buy apples. You go to NSE to buy stocks.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Portfolio</div>
+                    <div class="point-desc">A collection of all the different investments a person owns.</div>
+                    <div class="point-example">Example: My portfolio has 50% stocks, 30% Mutual Funds, and 20% Gold.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Holdings vs Positions</div>
+                    <div class="point-desc">Holdings are stocks you bought previously and keep in your account. Positions are live trades you are doing right now today.</div>
+                    <div class="point-example">Example: You bought Reliance last year (Holding). You bought Infosys this morning to sell by evening (Position).</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Buy / Sell Orders</div>
+                    <div class="point-desc">A request sent to the broker to buy or sell a stock at a specific price.</div>
+                    <div class="point-example">Example: "Buy 5 shares of SBI bank at ₹600 each."</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Mutual Funds Basics</div>
+                    <div class="point-desc">A pool of money collected from many people. An expert manager uses this money to buy a mix of good stocks.</div>
+                    <div class="point-example">Example: Instead of buying 10 different stocks yourself, you put ₹1000 in a Mutual Fund, and the expert does the hard work for you.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Profit & Loss (P&L)</div>
+                    <div class="point-desc">How much money you made (Profit) or lost (Loss) from your investments.</div>
+                    <div class="point-example">Example: Bought for ₹100, sold for ₹150. Profit = ₹50.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">CAGR (Compound Annual Growth Rate)</div>
+                    <div class="point-desc">The average percentage your money grows every year over a long time.</div>
+                    <div class="point-example">Example: If ₹10,000 becomes ₹20,000 in 5 years, the CAGR shows the smooth yearly growth rate (about 14.8%).</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">XIRR (Extended Internal Rate of Return)</div>
+                    <div class="point-desc">A complex formula used to calculate profit when you deposit or withdraw money on different dates during the year.</div>
+                    <div class="point-example">Example: You add ₹100 in Jan, ₹50 in March, and remove ₹20 in July. XIRR calculates your exact true profit percentage.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Portfolio Rebalancing</div>
+                    <div class="point-desc">Fixing your portfolio back to its original plan by selling what went too high and buying what went low.</div>
+                    <div class="point-example">Example: Your plan was 50% Gold, 50% Stocks. Stocks grew too much and are now 70%. You sell some stocks to go back to 50/50.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Nifty 50 / Sensex Basics</div>
+                    <div class="point-desc">A list of the biggest top companies. It tells us the general health of the share market.</div>
+                    <div class="point-example">Example: If Nifty 50 is going up, it means the top 50 companies are doing well, and the market is happy.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Asset Allocation & Risk Profile</div>
+                    <div class="point-desc">Asset Allocation is dividing money into different buckets (Stocks, FD, Gold). Risk Profile is testing how much risk a user can handle without panicking.</div>
+                    <div class="point-example">Example: A young user has a "High Risk" profile, so their allocation is 90% Stocks. An old user is "Low Risk", so allocation is 90% Fixed Deposits.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Broker Integration & Demat Account</div>
+                    <div class="point-desc">A Demat account holds your digital shares safely. Broker integration is how an app connects to platforms like Zerodha or Groww to buy shares.</div>
+                    <div class="point-example">Example: You use a Wealth App to decide what to buy, but the app connects to your Zerodha Demat account to actually do the buying.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec2" class="section-title">2. Wealth Management Domain Knowledge</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">RIA & RA</div>
+                    <div class="point-desc"><b>RIA:</b> Registered Investment Adviser (gives advice on whole portfolio). <br><b>RA:</b> Research Analyst (researches and says which stock is good/bad). Both need government (SEBI) licenses.</div>
+                    <div class="point-example">Example: An RA says "Buy Tata Motors". An RIA says "You should invest 20% of your salary in these 5 stocks".</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Client Onboarding Flow & KYC Process</div>
+                    <div class="point-desc">The steps to register a new user. KYC (Know Your Customer) means proving who they are using ID cards.</div>
+                    <div class="point-example">Example: The user enters name, uploads PAN card photo, does a live video check, and signs a digital agreement.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Advisory Subscription & Fee Plans</div>
+                    <div class="point-desc">How the advisor gets paid. Clients buy plans (monthly/yearly) to get advice.</div>
+                    <div class="point-example">Example: A client pays ₹500/month flat fee, or pays 1% of the profit they make, using auto-pay from their bank.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Investor Profile Management</div>
+                    <div class="point-desc">Storing details about the user's age, salary, goals, and risk level.</div>
+                    <div class="point-example">Example: Profile shows user wants to save for a "House in 5 years" and has "Medium Risk".</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Portfolio Recommendation Flow</div>
+                    <div class="point-desc">The steps an advisor takes to send an investment plan to a client, and the client approving it.</div>
+                    <div class="point-example">Example: Advisor clicks "Send Suggestion". Client gets email, opens app, clicks "Accept and Invest".</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Client Communication Workflow</div>
+                    <div class="point-desc">How advisors talk to clients securely inside the app keeping an official record.</div>
+                    <div class="point-example">Example: Sending market updates, chat messages, or PDF reports directly inside the app instead of WhatsApp.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec3" class="section-title">3. Trading Workflow Testing</h2>
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" alt="Workflow Dashboard" class="section-img">
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Login → Portfolio → Buy/Sell → Order Placement</div>
+                    <div class="point-desc">The happy path of a user coming into the app and completing a trade.</div>
+                    <div class="point-example">Example QA: Log in, check balance, search "Wipro", enter 10 qty, click Buy. Check if it goes to exchange.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Order Status: Confirmation, Failed, Pending, Cancelled</div>
+                    <div class="point-desc">Testing all states a trade can be in.</div>
+                    <div class="point-example">Example QA: Buy after market hours -> Status should be "Pending". Try to buy without money -> Status should be "Failed". User cancels order -> Status "Cancelled".</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Portfolio Update After Trades</div>
+                    <div class="point-desc">Making sure numbers change correctly immediately after a trade happens.</div>
+                    <div class="point-example">Example QA: You had 5 shares. You bought 2. The Portfolio screen must instantly show 7 shares without logging out and back in.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Advisor vs Client Permissions & Roles</div>
+                    <div class="point-desc">Checking that different users only see what they are allowed to see.</div>
+                    <div class="point-example">Example QA: Log in as Client -> "Delete Account" button is hidden. Log in as Advisor -> Can see all clients.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec4" class="section-title">4. Financial Calculations Validation</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Percentage, P&L, CAGR, XIRR Validation</div>
+                    <div class="point-desc">Testing if the math formulas used by developers are completely accurate.</div>
+                    <div class="point-example">Example QA: Take the data shown on the website, put it in Microsoft Excel, use the `=XIRR()` formula. Both answers must match exactly.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Portfolio Allocation %</div>
+                    <div class="point-desc">Checking if the pie chart slices add up correctly.</div>
+                    <div class="point-example">Example QA: 40% Stocks + 60% Gold = 100%. If system allows 101%, that is a bug.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Brokerage Basics & Tax/GST Basics</div>
+                    <div class="point-desc">Testing the extra fees taken during trades. Brokerage is the platform fee. GST is government tax.</div>
+                    <div class="point-example">Example QA: If you buy ₹100 stock, total cost might be ₹100.50. You must test if the extra 50 paisa was calculated correctly using GST logic.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Decimal Precision Checks & Rounding Validation</div>
+                    <div class="point-desc">Finance deals with exact paise/cents. Systems must not round numbers incorrectly.</div>
+                    <div class="point-example">Example QA: If profit is ₹10.556, it should round to ₹10.56. If it rounds to ₹11, it will cause huge accounting problems. Always test with 4 decimal places.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec5" class="section-title">5. API Testing Basics</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">REST APIs & JSON Basics</div>
+                    <div class="point-desc">API is how the frontend app talks to the backend database. JSON is the simple text language they use to send data.</div>
+                    <div class="point-example">Example: App asks API "Give me Apple price". API replies in JSON: <code>{"stock": "Apple", "price": 150}</code>.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Request/Response Validation</div>
+                    <div class="point-desc">Checking if what you send (Request) gets the correct answer (Response).</div>
+                    <div class="point-example">Example QA: Send a request to buy -10 stocks. The response should be an error message, not a success message.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Status Codes & Authentication Tokens</div>
+                    <div class="point-desc">Status codes tell you if it worked (200 OK) or failed (404 Not Found, 500 Error). Tokens are digital keys to prove who you are.</div>
+                    <div class="point-example">Example QA: Try to use the API without sending your login Token. Status code should be 401 (Unauthorized).</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Tools: Postman & Swagger</div>
+                    <div class="point-desc">Software used by testers to test APIs without needing a website screen.</div>
+                    <div class="point-example">Example QA: Open Postman, paste the API link, click Send, and look at the JSON result directly.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec6" class="section-title">6. Database Testing Basics</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">SQL Basics (SELECT, WHERE, JOIN, Aggregate)</div>
+                    <div class="point-desc">The language to ask questions to the database. SELECT gets data, WHERE filters it, JOIN connects tables, Aggregate does math (SUM).</div>
+                    <div class="point-example">Example: <code>SELECT SUM(amount) FROM trades WHERE user_id = 5;</code> (Checks total trade value for user 5).</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Data Validation, Transaction Verification & Portfolio Checks</div>
+                    <div class="point-desc">Checking if the data stored in the backend matches what happened on the frontend.</div>
+                    <div class="point-example">Example QA: You buy a stock on the website. You open the Database and check if the stock quantity increased by exact amount in the "portfolio_table".</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec7" class="section-title">7. Manual Testing Concepts</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Test Cases & Scenarios</div>
+                    <div class="point-desc">A scenario is "What to test" (Test Login). A test case is "How to test" (Enter email, password, click button, expect success).</div>
+                    <div class="point-example">Example: Scenario: Test Buying. Case 1: Buy with money. Case 2: Buy without money.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Types of Testing</div>
+                    <ul class="simple-list">
+                        <li><b>Smoke:</b> Basic check if app starts (Is login working?).</li>
+                        <li><b>Regression:</b> Checking if new changes broke old working code.</li>
+                        <li><b>Sanity:</b> Quick check of a specific new feature.</li>
+                        <li><b>Functional/UI/Integration:</b> Checking logic, checking buttons look good, checking modules connect.</li>
+                        <li><b>Exploratory:</b> Testing randomly like a real user without a written plan.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Defect Lifecycle & Bug Reporting</div>
+                    <div class="point-desc">The journey of a bug: New -> Assigned -> Fixed -> Retest -> Closed. A bug report explains how the developer can see the bug.</div>
+                    <div class="point-example">Example Bug Report: "Steps: Go to Cart. Click Buy. Expected: Success. Actual: System Crash Error 500."</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">RTM Basics & Tools (Jira, TestRail)</div>
+                    <div class="point-desc">RTM (Requirements Traceability Matrix) links requirements to test cases so nothing is missed. Jira is software to track bugs. TestRail stores test cases.</div>
+                    <div class="point-example">Example: Requirement "Allow UPI Payment" is linked to Test Case #45 in TestRail.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec8" class="section-title">8. Security Testing Basics</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Authentication & Authorization (Role-Based Access)</div>
+                    <div class="point-desc">AuthN is "Are you real user?" (Login). AuthZ is "What are you allowed to do?" (Permissions).</div>
+                    <div class="point-example">Example QA: Try to access the URL `/admin-panel` while logged in as a normal user. It should block you.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Session Timeout & Password Rules</div>
+                    <div class="point-desc">App should log out automatically if idle to protect data. Passwords must be hard to guess.</div>
+                    <div class="point-example">Example QA: Leave the screen idle for 15 minutes. Try to click a button. It should ask you to log in again.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">OTP Validation & Data Masking</div>
+                    <div class="point-desc">OTP ensures phone ownership. Data masking hides secret info like bank accounts.</div>
+                    <div class="point-example">Example QA: Test wrong OTP 3 times. It should lock. Check if Account Number shows as `XXXX-XXXX-1234` instead of full number.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec9" class="section-title">9. Payment & Subscription Testing</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Purchase Flow & Success/Failure</div>
+                    <div class="point-desc">Testing the journey of paying money through a gateway.</div>
+                    <div class="point-example">Example QA: Turn off internet during Bank OTP page. App should show "Payment Failed" and NOT give the subscription.</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Renewal Workflows & Failed Payments</div>
+                    <div class="point-desc">Testing what happens next month when auto-pay happens.</div>
+                    <div class="point-example">Example QA: If user's credit card expired, the system should send an email "Action Required" and stop their advisory services.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Invoice Generation & GST Calculations</div>
+                    <div class="point-desc">System must create a PDF receipt with correct tax added.</div>
+                    <div class="point-example">Example QA: Plan is ₹100. GST is 18%. Total charge must be ₹118. The PDF Invoice must show these split numbers clearly.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec10" class="section-title">10. Reports & Dashboard Testing</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Financial Reports Validation & Export</div>
+                    <div class="point-desc">Testing tables of data and making sure the "Download PDF/Excel" button works.</div>
+                    <div class="point-example">Example QA: Download the Excel file. Check if the columns match the website. Check if numbers changed formatting (e.g. text instead of numbers).</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Charts/Graphs Validation</div>
+                    <div class="point-desc">Visual testing if the pie chart or line graph matches the actual data.</div>
+                    <div class="point-example">Example QA: If user has 0% Gold, the Pie chart should not have a Gold slice.</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Filters, Sorting, Pagination & Search</div>
+                    <div class="point-desc">Testing UI tools used to find data in long lists.</div>
+                    <div class="point-example">Example QA: Search for "Apple". List shows Apple. Click Sort by Date. List rearranges. Go to Page 2. Ensure data loads correctly.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec11" class="section-title">11. Important Fintech Edge Cases</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Decimal, Currency & Large Values</div>
+                    <div class="point-desc">Testing extreme money numbers and formats.</div>
+                    <div class="point-example">Example QA: Input ₹99,999,999.99. Does the UI break? Does it show commas correctly (₹9,99,99,999)?</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Negative Balance & Duplicate Transactions</div>
+                    <div class="point-desc">Testing bad states. Users shouldn't have less than 0 money. They shouldn't be charged twice.</div>
+                    <div class="point-example">Example QA: Double-click the "Pay Now" button really fast. Does it charge you twice? (It should disable button immediately).</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="point-item">
+                    <div class="point-title">Date/Timezone & Market Timing Issues</div>
+                    <div class="point-desc">Testing time limits. Markets close at specific times. Timezones differ.</div>
+                    <div class="point-example">Example QA: App is used in USA but trades in India. Does it use IST (Indian Time) correctly to block trades at 4:00 PM IST?</div>
+                </div>
+                <div class="point-item">
+                    <div class="point-title">Incorrect Portfolio Totals</div>
+                    <div class="point-desc">Testing if individual rows equal the grand total at the bottom.</div>
+                    <div class="point-example">Example QA: Stock A = ₹50, Stock B = ₹50. Grand Total must say ₹100. Always check totals manually.</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="sec12" class="section-title">12. Most Important Skills to Focus On (Priority Order)</h2>
+        <div class="card" style="margin-bottom: 50px;">
+            <ul class="simple-list" style="list-style-type: decimal; font-size: 1.1rem; line-height: 1.8;">
+                <li><b>Finance domain basics:</b> Understand stocks, portfolios, and how the market works.</li>
+                <li><b>Trading workflow understanding:</b> Know exactly what happens from clicking "Buy" to order confirmation.</li>
+                <li><b>Financial calculations validation:</b> Math must be perfect. Learn to check XIRR and percentages in Excel.</li>
+                <li><b>SQL basics:</b> Learn to look inside the database to verify data.</li>
+                <li><b>API basics with Postman:</b> Be able to test backend logic without a frontend website.</li>
+                <li><b>Manual testing fundamentals:</b> Know how to write good test cases and bug reports.</li>
+                <li><b>Security & role testing:</b> Make sure clients can't act like admins.</li>
+                <li><b>Reporting/dashboard validation:</b> Ensure data exports and charts are accurate.</li>
+            </ul>
+        </div>
+
+        <div class="sandbox">
+            <h3 style="color: var(--accent-blue); margin-bottom: 10px;">QA Sandbox: Test Edge Cases (No Alerts)</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Use this form to test Decimal Precision and Negative Values as per Section 11.</p>
+            
+            <div class="input-group">
+                <label>Stock Price (₹)</label>
+                <input type="number" id="testPrice" placeholder="Enter price (e.g., 100.50)">
+            </div>
+            
+            <div class="input-group">
+                <label>Quantity to Buy</label>
+                <input type="number" id="testQty" placeholder="Enter quantity (e.g., 5 or -1)">
+            </div>
+
+            <button onclick="runSandboxTest()">Execute Trade Scenario</button>
+
+            <div id="resultBox" class="ui-hint"></div>
+        </div>
+
+    </div>
+
+    <script>
+        function runSandboxTest() {
+            const price = parseFloat(document.getElementById('testPrice').value);
+            const qty = parseFloat(document.getElementById('testQty').value);
+            const resultBox = document.getElementById('resultBox');
+
+            // Reset box
+            resultBox.style.display = "block";
+            resultBox.className = "ui-hint"; 
+
+            if (isNaN(price) || isNaN(qty)) {
+                resultBox.classList.add("error-hint");
+                resultBox.innerText = "Error: Please enter numbers in both fields.";
+                return;
+            }
+
+            if (qty <= 0) {
+                resultBox.classList.add("error-hint");
+                resultBox.innerText = "Bug Caught (Edge Case): Quantity cannot be zero or negative. Validation triggered.";
+            } else if (price < 0) {
+                resultBox.classList.add("error-hint");
+                resultBox.innerText = "Bug Caught (Edge Case): Stock price cannot be negative.";
+            } else {
+                // Calculate total and test decimal precision logic
+                const total = price * qty;
+                const totalRounded = total.toFixed(2); // Fixing to 2 decimals
+
+                resultBox.classList.add("success-hint");
+                resultBox.innerHTML = `Success: Order Valid. <br> Total Value: ₹${total} <br> Rounded for DB: ₹${totalRounded}`;
+            }
+        }
+    </script>
+</body>
+</html>
